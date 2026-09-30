@@ -24,8 +24,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if ($dados['cidade'] === '') {
         $erros[] = 'O campo Cidade é obrigatório.';
     }
-    // NOTA: o campo Telefone é opcional aqui e não possui validação de formato
-    // (nem no servidor, nem no JavaScript) - ponto para revisão futura.
+    // Telefone é opcional, mas quando informado precisa seguir um formato válido.
+    if ($dados['telefone'] !== '' && !preg_match('/^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/', $dados['telefone'])) {
+        $erros[] = 'Informe um telefone válido, ex: (00) 00000-0000.';
+    }
 
     if (empty($erros)) {
         $stmt = $pdo->prepare('INSERT INTO clientes (nome, email, telefone, cidade) VALUES (?, ?, ?, ?)');
@@ -77,7 +79,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                 </div>
                 <div class="form-group">
                     <label for="telefone">Telefone</label>
-                    <input type="text" id="telefone" name="telefone" value="<?= htmlspecialchars($dados['telefone']) ?>" placeholder="(00) 00000-0000">
+                    <input type="text" id="telefone" name="telefone" value="<?= htmlspecialchars($dados['telefone']) ?>" placeholder="(00) 00000-0000" pattern="\(?\d{2}\)?\s?\d{4,5}-?\d{4}" title="Formato esperado: (00) 00000-0000">
                 </div>
                 <div class="form-group">
                     <label for="cidade">Cidade *</label>

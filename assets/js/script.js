@@ -25,8 +25,16 @@ document.addEventListener('DOMContentLoaded', function () {
                 }
             }
 
-            // OBS: o campo "telefone" não recebe nenhuma validação de formato aqui
-            // (ponto proposital para a etapa de manutenção/análise futura).
+            var campoTelefone = form.querySelector('#telefone');
+            if (campoTelefone && campoTelefone.value.trim()) {
+                var telefoneValido = /^\(?\d{2}\)?\s?\d{4,5}-?\d{4}$/.test(campoTelefone.value.trim());
+                if (!telefoneValido) {
+                    valido = false;
+                    campoTelefone.classList.add('input-erro');
+                } else {
+                    campoTelefone.classList.remove('input-erro');
+                }
+            }
 
             if (!valido) {
                 event.preventDefault();

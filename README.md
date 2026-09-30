@@ -36,15 +36,15 @@ Sistema web simples em **PHP + MySQL (PDO)** com autenticação de usuários e C
 
 ## Pontos propositalmente deixados para a etapa de Análise e Manutenção
 
-1. **Campo "Telefone" sem validação de formato**: tanto no formulário de
-   cadastro/edição de clientes (`clientes/cadastrar.php` e `clientes/editar.php`)
-   quanto no JavaScript (`assets/js/script.js`), o campo aceita qualquer texto,
-   sem verificar um padrão de telefone (ex: `(00) 00000-0000`).
+1. ~~**Campo "Telefone" sem validação de formato**~~ — **Corrigido em
+   29/09/2026**: adicionada validação de formato (ex: `(00) 00000-0000`)
+   no servidor (`clientes/cadastrar.php` e `clientes/editar.php`) e no
+   JavaScript (`assets/js/script.js`).
 2. **Exclusão de cliente insegura** (`clientes/excluir.php`): a exclusão é feita
    via link `GET` direto, sem exibir uma confirmação ao usuário (`confirm()` no
    JS) e sem proteção contra CSRF - um clique acidental ou um link malicioso
    pode apagar um registro sem aviso.
 
-Esses dois pontos foram deixados intencionalmente para permitir a prática da
+Esse ponto foi deixado intencionalmente para permitir a prática da
 etapa de análise/manutenção do sistema (identificação do problema, correção e
 justificativa da melhoria).
