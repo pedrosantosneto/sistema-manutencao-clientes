@@ -4,6 +4,7 @@ exigirLogin();
 require_once __DIR__ . '/../config/database.php';
 
 $clientes = $pdo->query('SELECT * FROM clientes ORDER BY id DESC')->fetchAll();
+$csrfToken = gerarTokenCSRF();
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -58,7 +59,11 @@ $clientes = $pdo->query('SELECT * FROM clientes ORDER BY id DESC')->fetchAll();
                                     <td><?= htmlspecialchars($c['cidade']) ?></td>
                                     <td class="col-actions">
                                         <a href="editar.php?id=<?= (int) $c['id'] ?>" class="btn btn-small btn-secondary">Editar</a>
-                                        <a href="excluir.php?id=<?= (int) $c['id'] ?>" class="btn btn-small btn-danger">Excluir</a>
+                                        <form method="POST" action="excluir.php" class="form-excluir">
+                                            <input type="hidden" name="id" value="<?= (int) $c['id'] ?>">
+                                            <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($csrfToken) ?>">
+                                            <button type="submit" class="btn btn-small btn-danger">Excluir</button>
+                                        </form>
                                     </td>
                                 </tr>
                             <?php endforeach; ?>

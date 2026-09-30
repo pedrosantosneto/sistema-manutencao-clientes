@@ -4,6 +4,13 @@ document.addEventListener('DOMContentLoaded', function () {
 
     forms.forEach(function (form) {
         form.addEventListener('submit', function (event) {
+            if (form.classList.contains('form-excluir')) {
+                if (!confirm('Tem certeza que deseja excluir este cliente? Essa ação não pode ser desfeita.')) {
+                    event.preventDefault();
+                }
+                return;
+            }
+
             var camposObrigatorios = form.querySelectorAll('[required]');
             var valido = true;
 

@@ -3,9 +3,13 @@ require_once __DIR__ . '/../includes/auth.php';
 exigirLogin();
 require_once __DIR__ . '/../config/database.php';
 
-// PONTO DE MANUTENÇÃO: exclusão executada diretamente via GET, sem
-// confirmação (JS confirm) e sem proteção contra requisição forjada (CSRF).
-$id = (int) ($_GET['id'] ?? 0);
+// Exclusão só é aceita via POST e com um token CSRF válido da sessão.
+if ($_SERVER['REQUEST_METHOD'] !== 'POST' || !validarTokenCSRF($_POST['csrf_token'] ?? null)) {
+    header('Location: listar.php');
+    exit;
+}
+
+$id = (int) ($_POST['id'] ?? 0);
 
 if ($id > 0) {
     $stmt = $pdo->prepare('DELETE FROM clientes WHERE id = ?');
