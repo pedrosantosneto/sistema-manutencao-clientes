@@ -34,16 +34,5 @@ Sistema web simples em **PHP + MySQL (PDO)** com autenticação de usuários e C
    - **Usuário:** `admin`
    - **Senha:** `admin123`
 
-## Pontos propositalmente deixados para a etapa de Análise e Manutenção
 
-1. ~~**Campo "Telefone" sem validação de formato**~~ — **Corrigido em
-   29/09/2026**: adicionada validação de formato (ex: `(00) 00000-0000`)
-   no servidor (`clientes/cadastrar.php` e `clientes/editar.php`) e no
-   JavaScript (`assets/js/script.js`).
-2. ~~**Exclusão de cliente insegura**~~ — **Corrigido em 29/09/2026**: a
-   exclusão agora exige `POST` com token CSRF válido (`includes/auth.php` /
-   `clientes/excluir.php`) e pede confirmação do usuário via `confirm()` no
-   JavaScript (`assets/js/script.js`) antes de enviar o formulário.
 
-Esses pontos foram implementados como parte da etapa de análise/manutenção
-do sistema (identificação do problema, correção e justificativa da melhoria).
