@@ -39,6 +39,10 @@ $csrfToken = gerarTokenCSRF();
                 <div class="alert alert-success">Operação realizada com sucesso!</div>
             <?php endif; ?>
 
+            <?php if (isset($_GET['erro']) && $_GET['erro'] === 'csrf'): ?>
+                <div class="alert alert-error">Sessão expirou ou token CSRF inválido. Faça a ação novamente.</div>
+            <?php endif; ?>
+
             <?php if (empty($clientes)): ?>
                 <p class="empty-state">Nenhum cliente cadastrado ainda.</p>
             <?php else: ?>
