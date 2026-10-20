@@ -1,5 +1,42 @@
-// Validações básicas no lado do cliente (feedback imediato ao usuário).
 document.addEventListener('DOMContentLoaded', function () {
+    var authMode = document.body.dataset.authMode || 'login';
+    var tabs = document.querySelectorAll('[data-auth-toggle]');
+    var panels = document.querySelectorAll('[data-auth-panel]');
+
+    function showPanel(mode) {
+        tabs.forEach(function (tab) {
+            tab.classList.toggle('active', tab.dataset.authToggle === (mode === 'register' ? 'register' : 'login'));
+        });
+
+        panels.forEach(function (panel) {
+            panel.classList.toggle('active', panel.dataset.authPanel === (mode === 'register' ? 'register' : 'login'));
+        });
+    }
+
+    if (tabs.length && panels.length) {
+        tabs.forEach(function (tab) {
+            tab.addEventListener('click', function () {
+                var selected = tab.dataset.authToggle === 'register' ? 'register' : 'login';
+                showPanel(selected);
+            });
+        });
+
+        showPanel(authMode === 'register' ? 'register' : 'login');
+    }
+
+    document.querySelectorAll('.btn-show-password').forEach(function (button) {
+        button.addEventListener('click', function () {
+            var campo = document.getElementById(button.dataset.passwordField);
+            if (!campo) {
+                return;
+            }
+
+            var mostrar = campo.type === 'password';
+            campo.type = mostrar ? 'text' : 'password';
+            button.textContent = mostrar ? 'Ocultar' : 'Mostrar';
+        });
+    });
+
     var forms = document.querySelectorAll('form');
 
     forms.forEach(function (form) {
@@ -40,6 +77,16 @@ document.addEventListener('DOMContentLoaded', function () {
                     campoTelefone.classList.add('input-erro');
                 } else {
                     campoTelefone.classList.remove('input-erro');
+                }
+            }
+
+            if (form.querySelector('input[name="confirmar_senha"]')) {
+                var senha = form.querySelector('input[name="senha"]');
+                var confirmarSenha = form.querySelector('input[name="confirmar_senha"]');
+
+                if (senha && confirmarSenha && senha.value !== confirmarSenha.value) {
+                    valido = false;
+                    confirmarSenha.classList.add('input-erro');
                 }
             }
 
